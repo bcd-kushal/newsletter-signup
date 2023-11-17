@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Signup</title>
+
+    <link rel="stylesheet" href="./css/design.css">
+</head>
+
+
+<body>
+    
+    <nav class="toggleTabs">
+        <div class="blogTab">Blogs</div>
+        <div class="register">Subscribe</div>
+    </nav>
+
+
+    <div class="parentContainer">
+
+        <div class="blogs" id="blogsPage">
+            <div class="main">
+
+
+                <div class="title" style="width: 25%;">
+                    <div class="header">
+                        MY BLOGS
+                    </div>
+                    <div class="desc">
+                        Last updated: <div class="lastUpdated">16 Nov 2023</div>
+                    </div>
+                    <div class="valInput" style="margin: 30px 0;">
+                        <button type="submit" class="addBtn">Add</button>
+                    </div>
+                </div>
+                
+
+
+                <div class="container" id="blogContainer">
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+        <div class="main" id="registerPage" style="display: none;">
+
+            <div class="title">
+                <div class="header">
+                    BE THE FIRST TO KNOW
+                </div>
+                <div class="desc">
+                    Sign up for Newsletter emails to be the first to see inspiring content, news and exclusive offers.
+                </div>
+            </div>
+    
+            <div class="container">
+    
+                <form method="post" id="formInput">
+    
+                
+                    <div class="valInput">
+                        <div class="fname">
+                            <div class="placeholders">First Name*</div>
+                            <input type="text" class="inputs" id="fname" name="firstName" autocomplete="off" required>
+                        </div>
+                        <div class="lname" style="margin-left: 300px;">
+                            <div class="placeholders">Last Name</div>
+                            <input type="text" class="inputs" id="lname" name="lastName" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="valInput">
+                        <div class="placeholders">Email Address*</div>
+                        <input type="email" class="inputs" id="mailID" name="mailID" autocomplete="off" required>
+                    </div>
+                    <div class="valInput">
+                        <button type="submit" class="submitBtn">Sign Up</button>
+                    </div>
+                    <div class="valInput" style="width: 100%;display: flex;justify-content: center;margin-top: -25px;">
+                        <div class="responseBox"></div>
+                    </div>
+                    
+                
+                
+                </form>
+    
+    
+            </div>
+    
+    
+        </div>
+
+    </div>
+
+
+
+    <div class="miniAddBtn">
+       <div class=""> + </div> 
+    </div>
+
+
+
+    <template data-blog-template>
+        <div data-header-desc-pair class="headerDescPair">
+            <div class="titleDateField">
+                <input data-title-box type="text" name="blogHeader" id="blogHeader" placeholder="Blog Title" style="font-size: 131%;font-weight: bolder;">
+                <div data-time-box class="timeField"></div>
+            </div>
+          <textarea data-desc-box name="blogDesc" id="BlogDesc" cols="30" rows="7" placeholder="Description" style="font-size: 110%;"></textarea>
+          <div data-buttons-field class="okDel">
+
+            <button data-ok-btn class="okBtn" type="button" >
+                OK
+              </button>
+              <button data-delete-btn class="removeBtn" type="button" >
+                Delete
+              </button>
+
+          </div>
+          
+        </div>
+    </template>
+
+
+    
+    <template data-firebase-blog-template>
+        <div data-header-desc-pair class="headerDescPair">
+            <div class="titleDateField">
+                <input data-title-box type="text" name="blogHeader" id="blogHeader" placeholder="Blog Title" style="font-size: 131%;font-weight: bolder;">
+                <div data-time-box class="timeField"></div>
+            </div>
+          
+          <textarea data-desc-box name="blogDesc" id="BlogDesc" cols="30" rows="7" placeholder="Description" style="font-size: 110%;"></textarea>
+          
+        </div>
+    </template>
+
+
+
+
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="module" src="./js/registerUser.js"></script>
+    <script type="module" src="./js/animation.js"></script>
+    <script type="module" src="./js/toggleTabs.js"></script>
+    <script type="module" src="./js/addNewBlog.js"></script>
+    <script type="module" src="./js/resize.js"></script>
+    <script type="module" src="./js/loadBlogData.js"></script>
+    
+</body>
+</html>
