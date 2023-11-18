@@ -18,6 +18,9 @@ const dataBase = getDatabase(app);
 
 
 
+let totalNewBlogFieldsAdded = 0;
+
+
 function tweakEmailDots( mailString, x ){
 
     mailString = mailString || "";
@@ -29,6 +32,27 @@ function tweakEmailDots( mailString, x ){
         return mailString.replace(/%/g, '.');
     }
     
+}
+
+
+function showError( blogParam, description, highlightColor ){
+
+    const errorTitle = document.querySelector(".lastUpdate");
+    const errorDesc = document.querySelector(".lastUpdated");
+    errorTitle.style.color = highlightColor;
+    errorTitle.textContent = blogParam;
+    errorDesc.style.color = highlightColor;
+    errorDesc.textContent = description;
+
+    setTimeout(() => {
+        errorTitle.style.color = "rgb(0,0,0)";
+        errorTitle.textContent = "Last updated:";
+        errorDesc.style.color = "rgb(0,0,0)";
+        errorDesc.textContent = "16 Nov 2023";
+    }, 3300 );
+
+    return;
+
 }
 
 
@@ -76,37 +100,64 @@ const addBtn = document.querySelector(".addBtn");
 const miniAddBtn = document.querySelector(".miniAddBtn");
 
 addBtn.addEventListener( "click", () => {
+    //check if total new blog fields is already 2 or not 
+    if( totalNewBlogFieldsAdded >= 2 ){
+        showError( "Max of 2 Blog Drafts", "allowed at a time", "orange" );
+        return;
+    }
     const blogContainerBox = document.getElementById("blogContainer");
     blogContainerBox.appendChild(createHeaderDescPair());
 });
 
 miniAddBtn.addEventListener( "click", () => {
+    //check if total new blog fields is already 2 or not 
+    if( totalNewBlogFieldsAdded >= 2 ){
+        showError( "Max of 2 Blog Drafts", "allowed at a time", "orange" );
+        return;
+    }
     const blogContainerBox = document.getElementById("blogContainer");
     blogContainerBox.appendChild(createHeaderDescPair());
 });
 
 
 
+
 function createHeaderDescPair() {
+
     const element = document.querySelector('[data-blog-template]').content.cloneNode(true);
-    
+    const len = document.querySelectorAll("[data-title-box]").length;
+        
+    const blogTitle = document.querySelectorAll("[data-title-box]")[len-1];
+    const blogDesc = document.querySelectorAll("[data-desc-box]")[len-1];
+
+
     //----- delete button ---------------->
     element.querySelector('[data-delete-btn]').addEventListener('click', e => {
         e.target.closest('[data-header-desc-pair]').remove();
+        totalNewBlogFieldsAdded = Math.max( totalNewBlogFieldsAdded-1, 0 );
     });
 
     //----- ok button -------------------->
     element.querySelector('[data-ok-btn]').addEventListener('click', e => {
         
-        const len = document.querySelectorAll("[data-title-box]").length;
-        const x = document.querySelectorAll("[data-desc-box]")[len-1];
-
-        document.querySelectorAll("[data-title-box]")[len-1].readOnly = true;
-        x.readOnly = true;
-        x.style.resize = "none";
+        //------- check if blog has everything or not --------------------->
         
-        document.querySelectorAll("[data-title-box]")[len-1].style.cursor = "pointer";
-        document.querySelectorAll("[data-desc-box]")[len-1].style.cursor = "pointer";
+        if(blogTitle.value == ""){
+            return showError( "Blog Title", "cannot be empty", "red" );
+        }
+
+        if(blogDesc.value == ""){
+            return showError( "Blog Description", "cannot be empty", "red" );
+        }
+
+
+        
+        document.querySelectorAll("[data-title-box]")[len-1].readOnly = true;
+        blogDesc.readOnly = true;
+        blogDesc.style.resize = "none";
+        blogDesc.style.cursor = "pointer";
+        blogTitle.style.cursor = "pointer";
+        
         document.querySelectorAll("[data-header-desc-pair]")[len-1].style.cursor = "pointer";
 
         const dateRN = getInstantaneousTime();
@@ -122,8 +173,8 @@ function createHeaderDescPair() {
         
                 
         set( ref( dataBase, "myBlogs/" + dateRN ), {
-            "title": document.querySelectorAll("[data-title-box]")[len-1].value || "",
-            "desc": document.querySelectorAll("[data-desc-box]")[len-1].value || ""
+            "title": blogTitle.value || "",
+            "desc": blogDesc.value || ""
         } ).then(() => {
             
             
@@ -133,9 +184,6 @@ function createHeaderDescPair() {
         }).catch((err) => {
             console.error("ERROR: ", err);
         });
-
-
-
 
 
 
@@ -149,8 +197,8 @@ function createHeaderDescPair() {
 
                 const allUsers = data.val();
                 const templateParams = {
-                    blog_title: document.querySelectorAll("[data-title-box]")[len-1].value || "",
-                    blog_brief: document.querySelectorAll("[data-desc-box]")[len-1].value || "brief desc placeholder" + "...",
+                    blog_title: blogTitle.value || "",
+                    blog_brief: blogDesc.value || "brief desc placeholder" + "...",
                     site_link: creds.SITE_LINK
                 };
                 
@@ -219,6 +267,7 @@ function createHeaderDescPair() {
                 });
 
 
+                totalNewBlogFieldsAdded = Math.max( totalNewBlogFieldsAdded-1, 0 );
 
 
             } else {
@@ -233,6 +282,9 @@ function createHeaderDescPair() {
     });
 
 
+
+    totalNewBlogFieldsAdded = Math.min( totalNewBlogFieldsAdded+1, 2 );
+                                
     return element;
 }
 
@@ -240,4 +292,5 @@ function createHeaderDescPair() {
 
 
 //========[ on ok submit remove buttons and get all inputs as non selectable ]=========
+
 
