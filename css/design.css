@@ -503,6 +503,7 @@ input:focus{
 .timeField{
     color: var(--unfocused);
     text-align: right;
+    width: 100% !important;
 }
 .okDel{
     display: flex;
@@ -600,6 +601,63 @@ input#blogHeader {
 .fa-lg{
     line-height: 0;
 }
+
+.frontPopScreen{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,.34);
+    z-index: 20 !important;
+    backdrop-filter: blur(5.2px);
+    align-items: center;
+    justify-content: center;
+}
+
+.popScreen{
+    position: relative;
+    width: 300px;
+    height: auto;
+    background: var(--bgcolor);
+    box-shadow: 0 0 8px 0.88px var(--sec-text-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.popTitle{
+    color: var(--prim-color);
+    font-size: 145%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popPassword, .popUserName{
+    display: grid;
+    color: var(--unfocused);
+    height: 70px;
+}
+
+.popPassword > *, .popUserName > *{
+    grid-row-start: 1;
+    grid-column-start: 1;
+
+}
+
+.popSubmit,.popResponseBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.popResponseBox{
+    margin-top: 20px;
+    height: 20px;
+
+}
+
 /* 
 .trashBin{
     color: #000000;
