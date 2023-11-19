@@ -17,6 +17,7 @@
         <div class="register">Subscribe</div>
     </nav>
 
+
     <div class="signInField">
         <div class="signInBtn">
             <div class="">
@@ -121,6 +122,29 @@
     </div>
 
 
+    <div class="frontPopScreen">
+        <div class="popScreen">
+
+            <div class="popTitle">SIGN IN</div>
+
+            <div class="popUserName">
+                <input type="text" class="inputs" id="popUserName" name="popUserName" placeholder="Full Name*" autocomplete="off" required>
+            </div>
+            
+            <div class="popPassword">
+                <input type="text" class="inputs" id="popPassword" name="popPassword" placeholder="Password*" autocomplete="off" required>
+            </div>
+            
+            <div class="popSubmit">
+                <button type="submit" class="submitBtn">Sign In</button>
+            </div>
+            <div class="popResponseBox"></div>
+            
+
+        </div>
+    </div>
+
+    <!-- ------------- TEMPLATE ------------------------------------------------- -->
 
     <template data-blog-template>
         <div data-header-desc-pair class="headerDescPair">
@@ -169,6 +193,7 @@
     <script type="module" src="./js/addNewBlog.js"></script>
     <script type="module" src="./js/resize.js"></script>
     <script type="module" src="./js/loadBlogData.js"></script>
+    <script type="module" src="./js/userSessions.js"></script>
     
 </body>
 </html>
