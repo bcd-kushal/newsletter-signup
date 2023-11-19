@@ -125,12 +125,8 @@ miniAddBtn.addEventListener( "click", () => {
 function createHeaderDescPair() {
 
     const element = document.querySelector('[data-blog-template]').content.cloneNode(true);
-    const len = document.querySelectorAll("[data-title-box]").length;
-        
-    const blogTitle = document.querySelectorAll("[data-title-box]")[len-1];
-    const blogDesc = document.querySelectorAll("[data-desc-box]")[len-1];
 
-
+    
     //----- delete button ---------------->
     element.querySelector('[data-delete-btn]').addEventListener('click', e => {
         e.target.closest('[data-header-desc-pair]').remove();
@@ -139,6 +135,13 @@ function createHeaderDescPair() {
 
     //----- ok button -------------------->
     element.querySelector('[data-ok-btn]').addEventListener('click', e => {
+        
+        const len = document.querySelectorAll("[data-title-box]").length;
+        
+        const blogTitle = document.querySelectorAll("[data-title-box]")[len-1];
+        const blogDesc = document.querySelectorAll("[data-desc-box]")[len-1];
+
+
         
         //------- check if blog has everything or not --------------------->
         
