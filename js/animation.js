@@ -36,16 +36,26 @@ function goBackPlaceHoldersDown(x){
 const inputs = document.querySelectorAll(".inputs");
 
 inputs.forEach((input, index) => {
+
     input.addEventListener("focus", () => {
+
+        if( input.id == "popPassword" || input.id == "popUserName" || input.id == "popCheck" )
+            return;
+
         shiftPlaceHoldersUp(index);
     });
 
     input.addEventListener("blur", () => {
+        
+        if( input.id == "popPassword" || input.id == "popUserName" || input.id == "popCheck" )
+            return;
+
         if(input.value!="" && input.value!=undefined)
             return;
         
         goBackPlaceHoldersDown(index);
     });
+
 });
 
 
