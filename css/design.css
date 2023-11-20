@@ -7,7 +7,6 @@
     --primary_text: rgb(0,0,0);
     --secondary_text: rgb(239, 239, 239);
     --dark_text: rgb(255,255,255);
-
     --unfocused: rgb(159, 159, 159);
     --prim-color: #000000;
     --sun: #000000;
@@ -15,7 +14,6 @@
     --sec-text-color: #767676;
     color: var(--prim-text-color);
     --highlight: rgba(0,0,0,0.035);
-    
 }
 
 *{
@@ -58,7 +56,8 @@ body{
 
 
 
-.form_box, .bgBox{
+.form_box, 
+.bgBox{
     position: absolute;
     background: var(--bgcolor);
     height: 65%;
@@ -284,7 +283,10 @@ body{
     grid-column-start: 1;
 }
 
-.fname, .lname, .inputs:nth-child(1), .inputs:nth-child(2) {
+.fname, 
+.lname, 
+.inputs:nth-child(1), 
+.inputs:nth-child(2) {
     width: 250px;
 }
 
@@ -305,7 +307,8 @@ input{
     border-bottom: 1.2px solid var(--unfocused);
 }
 
-input:hover, input:focus{
+input:hover, 
+input:focus{
     outline: none;
     padding-left: 13px;
     border-bottom: 1.2px solid var(--sec-text-color);
@@ -330,7 +333,10 @@ input:focus{
     width: 65px;
 }
 
-.submitBtn, .addBtn, .removeBtn, .okBtn{
+.submitBtn, 
+.addBtn, 
+.removeBtn, 
+.okBtn{
     background: var(--prim-color);
     color: var(--bgcolor);
     font-weight: bolder;
@@ -343,7 +349,8 @@ input:focus{
     left: 50%;
 }
 
-.removeBtn, .okBtn{
+.removeBtn, 
+.okBtn{
     margin-right: 25px;
 }
 
@@ -356,7 +363,10 @@ input:focus{
     padding-top: 5px;
 }
 
-.submitBtn:hover, .addBtn:hover, .removeBtn:hover, .okBtn:hover{
+.submitBtn:hover, 
+.addBtn:hover, 
+.removeBtn:hover, 
+.okBtn:hover{
     box-shadow: 0 0 6px var(--shadow-color);
     letter-spacing: 1px;
 }
@@ -437,16 +447,19 @@ input:focus{
 }
 
 
-#blogsPage, #registerPage{
+#blogsPage, 
+#registerPage{
     z-index: 4 !important;
 }
 
-.blogTab, .register{
+.blogTab, 
+.register{
     cursor: pointer;
     z-index: 10 !important;
 }
 
-.blogTab:hover, .register:hover{
+.blogTab:hover, 
+.register:hover{
     color: var(--prim-color);
     text-decoration: underline;
 }
@@ -497,26 +510,32 @@ input:focus{
     align-items: center;
     justify-content: space-between;
 }
+
 .titleDateField > *{
     margin-right: 15px;
 }
+
 .timeField{
     color: var(--unfocused);
     text-align: right;
     width: 100% !important;
 }
+
 .okDel{
     display: flex;
     width: 220px;
     align-items: center;
     justify-content: space-evenly;
 }
-#BlogDesc, #blogHeader{
+
+#BlogDesc, 
+#blogHeader{
     outline: none;
     border: none;
     padding: 7px;
     background: transparent;
 }
+
 input#blogHeader {
     width: 82.7%;
 }
@@ -614,12 +633,14 @@ input#blogHeader {
     backdrop-filter: blur(5.2px);
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .popScreen{
     position: relative;
     width: 300px;
     height: auto;
+    min-height: 450px;
     background: var(--bgcolor);
     box-shadow: 0 0 8px 0.88px var(--sec-text-color);
     padding: 20px;
@@ -635,29 +656,78 @@ input#blogHeader {
     justify-content: center;
 }
 
-.popPassword, .popUserName{
+.popPassword, 
+.popUserName{
     display: grid;
     color: var(--unfocused);
     height: 70px;
 }
 
-.popPassword > *, .popUserName > *{
+.popPassword > *, 
+.popUserName > *{
     grid-row-start: 1;
     grid-column-start: 1;
 
 }
 
-.popSubmit,.popResponseBox{
+.popSubmit,
+.popResponseBox{
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .popResponseBox{
     margin-top: 20px;
     height: 20px;
 
 }
 
+.popClose{
+    margin-top: 35px;
+    font-weight: bolder;
+    font-size: 110%;
+    color: var(--prim-text-color);
+    cursor: pointer;
+
+}
+
+.popClose:hover{
+    text-decoration: underline;
+}
+
+.popCheck{
+    display: flex;
+    max-height: 45px;
+    padding: 0 10px 18px 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 92%;
+    color: var(--unfocused);
+}
+
+.popCheck input[type="checkbox"]{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+    border-radius: 3.5px;
+    border: 1.2px solid var(--unfocused);
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.popCheck input[type="checkbox"]:checked::before {
+    content: '\2713'; /* Unicode character for checkmark */
+    display: block;
+    position: absolute;
+    color: green; /* Yellow color for the tick */
+    margin-left: 3px;
+    margin-top: -1.5px;
+}
 /* 
 .trashBin{
     color: #000000;
