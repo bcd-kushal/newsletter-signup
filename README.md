@@ -5,4 +5,5 @@ Supprts:
  - authenticaive registration by OTP via email
  - share email to all registered users when new blog created
  - create/delete blogs and store them in cloud
- - dark mode ?????
+ - admin panel: only admins can create delete
+ - firebase key end management in backend???
