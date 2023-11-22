@@ -1,24 +1,27 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { ref, set, get, child } from "firebase/database";
-import creds from "../json/creds.json";
 
 const submittedButton = document.getElementsByClassName("submitBtn")[0];
 const responseField = document.getElementsByClassName("responseBox")[0];
 const inputs = document.querySelectorAll(".inputs");
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBO2LjF2Vau4wAhjiSB6i-xpUfIrWMv67w",
-    authDomain: "newsletter-5be1e.firebaseapp.com",
-    databaseURL: "https://newsletter-5be1e-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "newsletter-5be1e",
-    storageBucket: "newsletter-5be1e.appspot.com",
-    messagingSenderId: "422358715800",
-    appId: "1:422358715800:web:58f50be1736602d1be6fed"
+    apiKey:                 String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_API_KEY),
+    authDomain:             String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_AUTH_DOMAIN),
+    databaseURL:            String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_DATABASE_URL),
+    projectId:              String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_PROJECT_ID),
+    storageBucket:          String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_STORAGE_BUCKET),
+    messagingSenderId:      String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_MESSAGING_SENDER_ID),
+    appId:                  String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_APP_ID)
 };
+
 
 const app = initializeApp(firebaseConfig);
 const dataBase = getDatabase(app);
+
+//=============================================================================================
+
 
 
 
@@ -104,13 +107,13 @@ submittedButton.addEventListener( "click", ( event ) => {
                 };
 
                 var formData = new FormData(this);
-                formData.append('service_id', creds.EMAILJS_SERVICE_ID );
-                formData.append('template_id', creds.EMAILJS_TEMPLATE_ID_VERIFICATION );
-                formData.append('user_id', creds.EMAILJS_PUBLIC_KEY );
+                formData.append('service_id', String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_SERVICE_ID) );
+                formData.append('template_id', String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_TEMPLATE_ID_VERIFICATION) );
+                formData.append('user_id', String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_PUBLIC_KEY) );
                 formData.append('verification_code', templateParams.verification_code );
-                formData.append('from_name', creds.COMPANY_NAME );
+                formData.append('from_name', String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_MY_NAME) );
                 formData.append('to_name', templateParams.to_name );
-                formData.append('company_name', creds.COMPANY_NAME );
+                formData.append('company_name', String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_COMPANY_NAME) );
                 formData.append('receiver_email', templateParams.receiver_mail );
                 formData.append('email_concern', "newsletter registration" );
 
@@ -124,7 +127,7 @@ submittedButton.addEventListener( "click", ( event ) => {
                 }
 
 
-                $.ajax( creds.EMAILJS_API, sendTypes ).done(() => {
+                $.ajax( String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_API), sendTypes ).done(() => {
 
                     const VERIFICATION_TOTAL_TIME_ALLOWED = 5*60*1000;
                     const timer = setTimeout(() => { 
