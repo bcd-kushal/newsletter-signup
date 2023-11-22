@@ -3,17 +3,21 @@ import { getDatabase } from "firebase/database";
 import { ref, child, get } from "firebase/database";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBO2LjF2Vau4wAhjiSB6i-xpUfIrWMv67w",
-    authDomain: "newsletter-5be1e.firebaseapp.com",
-    databaseURL: "https://newsletter-5be1e-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "newsletter-5be1e",
-    storageBucket: "newsletter-5be1e.appspot.com",
-    messagingSenderId: "422358715800",
-    appId: "1:422358715800:web:58f50be1736602d1be6fed"
+    apiKey:                 String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_API_KEY),
+    authDomain:             String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_AUTH_DOMAIN),
+    databaseURL:            String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_DATABASE_URL),
+    projectId:              String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_PROJECT_ID),
+    storageBucket:          String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_STORAGE_BUCKET),
+    messagingSenderId:      String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_MESSAGING_SENDER_ID),
+    appId:                  String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_APP_ID)
 };
+
 
 const app = initializeApp(firebaseConfig);
 const dataBase = getDatabase(app);
+
+//=============================================================================================
+
 
 
 function convertToProperDate(inputString) {
@@ -25,7 +29,7 @@ function convertToProperDate(inputString) {
     const month = dateObject.toLocaleString('default', { month: 'short' });
     const year = dateObject.getFullYear().toString().slice(-2);
 
-    const formattedDate = `${day} ${month} ${year}`;
+    const formattedDate = `${day} ${month}, ${year}`;
 
     return formattedDate;
 }
@@ -38,8 +42,22 @@ function convertToProperDate(inputString) {
 
 
     const blogContainerBox = document.getElementById("blogContainer");
+    const lastBlogUpdatedContainerBox = document.querySelector(".lastUpdated");
 
 
+    // set the blog last update date from firebbase ------------------->>>
+    get( child( ref( dataBase ), "lastBlogUpdated/"))
+    .then(( data ) => {
+        if( data.exists() ){
+            lastBlogUpdatedContainerBox.textContent = data.val().lastBlogUpdateDate.date;
+        }
+    })
+    .catch((err) => {
+        console.error("ERROR 204: ", err);
+    });
+
+
+    // fetch all the blogs data and show them ------------------->>>
     get( child( ref( dataBase ), "myBlogs/"))
         .then(( data ) => {
             if( data.exists() ){
