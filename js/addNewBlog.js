@@ -1,20 +1,22 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { ref, child, get, set } from "firebase/database";
-import creds from "../json/creds.json";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBO2LjF2Vau4wAhjiSB6i-xpUfIrWMv67w",
-    authDomain: "newsletter-5be1e.firebaseapp.com",
-    databaseURL: "https://newsletter-5be1e-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "newsletter-5be1e",
-    storageBucket: "newsletter-5be1e.appspot.com",
-    messagingSenderId: "422358715800",
-    appId: "1:422358715800:web:58f50be1736602d1be6fed"
+    apiKey:                 String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_API_KEY),
+    authDomain:             String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_AUTH_DOMAIN),
+    databaseURL:            String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_DATABASE_URL),
+    projectId:              String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_PROJECT_ID),
+    storageBucket:          String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_STORAGE_BUCKET),
+    messagingSenderId:      String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_MESSAGING_SENDER_ID),
+    appId:                  String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_APP_ID)
 };
 
 const app = initializeApp(firebaseConfig);
 const dataBase = getDatabase(app);
+
+//=============================================================================================
+
 
 
 
@@ -87,7 +89,7 @@ function convertToProperDate(inputString) {
     const month = dateObject.toLocaleString('default', { month: 'short' });
     const year = dateObject.getFullYear().toString().slice(-2);
 
-    const formattedDate = `${day} ${month} ${year}`;
+    const formattedDate = `${day} ${month}, ${year}`;
 
     return formattedDate;
 }
@@ -126,7 +128,7 @@ function createHeaderDescPair() {
 
     const element = document.querySelector('[data-blog-template]').content.cloneNode(true);
 
-    
+
     //----- delete button ---------------->
     element.querySelector('[data-delete-btn]').addEventListener('click', e => {
         e.target.closest('[data-header-desc-pair]').remove();
@@ -164,7 +166,8 @@ function createHeaderDescPair() {
         document.querySelectorAll("[data-header-desc-pair]")[len-1].style.cursor = "pointer";
 
         const dateRN = getInstantaneousTime();
-        document.querySelectorAll("[data-time-box]")[len-1].innerHTML = convertToProperDate( dateRN );
+        const properDate = convertToProperDate( dateRN );
+        document.querySelectorAll("[data-time-box]")[len-1].innerHTML = properDate;
 
         e.target.closest('[data-buttons-field]').remove();
 
@@ -202,7 +205,7 @@ function createHeaderDescPair() {
                 const templateParams = {
                     blog_title: blogTitle.value || "",
                     blog_brief: blogDesc.value || "brief desc placeholder" + "...",
-                    site_link: creds.SITE_LINK
+                    site_link: String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_SITE_LINK)
                 };
                 
                 /* 
@@ -213,7 +216,22 @@ function createHeaderDescPair() {
 
 
 
-                //send email to eavh of them using EMAILJS
+
+                // UPDATING DATE LAST PUBLISHED
+                document.querySelector(".lastUpdated").textContent = properDate;
+                set( ref( dataBase, "lastBlogUpdated/" + "lastBlogUpdateDate" ), {
+                    "date": properDate || ""
+                } ).then(() => {
+                    console.log("updated date saved to firebase: ",properDate);
+                }).catch((err) => {
+                    console.error("ERROR: ", err);
+                });
+
+
+
+
+
+                // EMAILING: send email to eavh of them using EMAILJS ---------------------------->>
                 Object.entries(allUsers).forEach(([key, value]) => {
 
                     //console.log(`Key: ${key}, Value: ${value.first_name} ${value.last_name}`);
@@ -223,10 +241,10 @@ function createHeaderDescPair() {
                     //console.table(templateParams);
 
                     var formData = new FormData(this);
-                    formData.append('service_id', creds.EMAILJS_SERVICE_ID );
-                    formData.append('template_id', creds.EMAILJS_TEMPLATE_ID_SENDEMAIL );
-                    formData.append('user_id', creds.EMAILJS_PUBLIC_KEY );
-                    formData.append('my_name', creds.MY_NAME );
+                    formData.append('service_id', String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_SERVICE_ID) );
+                    formData.append('template_id', String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_TEMPLATE_ID_SEND_MAIL) );
+                    formData.append('user_id', String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_PUBLIC_KEY) );
+                    formData.append('my_name', String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_MY_NAME) );
                     formData.append('first_name', value.first_name );
                     formData.append('last_name', value.last_name );
                     formData.append('receiver_email', receiver_mail );
@@ -234,7 +252,7 @@ function createHeaderDescPair() {
                     formData.append('blog_brief_desc', templateParams.blog_brief );
                     formData.append('site_link', templateParams.site_link );
 
-/* 
+                    /* 
                     const x = {
                         'service_id': creds.EMAILJS_SERVICE_ID ,
                         'template_id': creds.EMAILJS_TEMPLATE_ID_SENDEMAIL ,
@@ -258,7 +276,7 @@ function createHeaderDescPair() {
                     }
 
                     
-                    $.ajax( creds.EMAILJS_API, sendTypes ).done(() => {
+                    $.ajax( String(import.meta.env.SNOWPACK_PUBLIC_EMAILJS_API), sendTypes ).done(() => {
 
                         console.log("sent mail to: ", key);
 
