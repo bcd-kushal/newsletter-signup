@@ -1,20 +1,23 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { ref, child, get } from "firebase/database";
-import { bcrypt } from "bcryptjs";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBO2LjF2Vau4wAhjiSB6i-xpUfIrWMv67w",
-    authDomain: "newsletter-5be1e.firebaseapp.com",
-    databaseURL: "https://newsletter-5be1e-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "newsletter-5be1e",
-    storageBucket: "newsletter-5be1e.appspot.com",
-    messagingSenderId: "422358715800",
-    appId: "1:422358715800:web:58f50be1736602d1be6fed"
+    apiKey:                 String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_API_KEY),
+    authDomain:             String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_AUTH_DOMAIN),
+    databaseURL:            String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_DATABASE_URL),
+    projectId:              String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_PROJECT_ID),
+    storageBucket:          String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_STORAGE_BUCKET),
+    messagingSenderId:      String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_MESSAGING_SENDER_ID),
+    appId:                  String(import.meta.env.SNOWPACK_PUBLIC_FIREBASE_APP_ID)
 };
+
 
 const app = initializeApp(firebaseConfig);
 const dataBase = getDatabase(app);
+
+//=============================================================================================
+
 
 
 
@@ -239,42 +242,3 @@ signInButton.addEventListener( "click", () => {
 
 
 
-
-
-//======= crypto hashing to generate password hash for cookie storage ==================
-// Function to hash a password with a unique salt using scrypt
-async function hashPassword(password) {
-    const salt = crypto.randomBytes(16).toString('hex'); // Generate a random salt
-    const key = await new Promise((resolve, reject) => {
-        crypto.scrypt(password, salt, 64, (err, derivedKey) => {
-            if (err) reject(err);
-            resolve(derivedKey.toString('hex'));
-        });
-    });
-    return `${salt}:${key}`;
-}
-
-// Function to verify a password against its hash
-async function verifyPassword(password, hashedPassword) {
-    const [salt, key] = hashedPassword.split(':');
-    const keyToCompare = await new Promise((resolve, reject) => {
-        crypto.scrypt(password, salt, 64, (err, derivedKey) => {
-            if (err) reject(err);
-            resolve(derivedKey.toString('hex'));
-        });
-    });
-    return key === keyToCompare;
-}
-  
-// Example usage
-(async () => {
-    const plainTextPassword = 'user123password';
-    
-    // Hash the password before storing it
-    const hashedPassword = await hashPassword(plainTextPassword);
-    console.log('Hashed Password:', hashedPassword);
-  
-    // Verify the password during login
-    const isPasswordMatch = await verifyPassword(plainTextPassword, hashedPassword);
-    console.log('Password Match:', isPasswordMatch);
-})();
