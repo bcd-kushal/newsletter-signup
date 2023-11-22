@@ -62,25 +62,3 @@ inputs.forEach((input, index) => {
 
 
  
-// ============= [  form submission JS CODE  ] =========================
-
-/* const formToSubmit = document.getElementById("formInput");
-
-formToSubmit.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    
-    const thisForm = new FormData(formToSubmit);
-
-    fetch("https://php-cloud-connect-test-production.up.railway.app/", {
-        method: "POST",
-        body: thisForm
-    })
-    .then(Response => Response.text())
-    .then(data =>  {
-        console.log(data);
-    })
-    .catch(err => {
-        console.error("Error: ", err);
-    });
-}); */
